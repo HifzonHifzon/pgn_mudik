@@ -1,5 +1,9 @@
 <?php 
 
+
+/*
+    Hifzon, 8 Oktober 2020
+*/
 class Main extends CI_Controller {
     
     public function index() {
