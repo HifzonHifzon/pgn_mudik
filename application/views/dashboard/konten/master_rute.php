@@ -15,26 +15,26 @@
     <div class="card-content">
         
         <div class="table-responsive">
-        <table class="table table-bordered" style="margin:5px">
+        <table class="table table-bordered list_data" style="margin:5px">
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Kode Transportasi</th>
-                    <th>Name Transportasi</th>
-                    <th>Jenis Transportasi</th>
-                    <th>Slot </th>
-                    <th>Status Aktif </th>
+                    <th>Asal</th>
+                    <th>Tujuan</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php $no=1; foreach($data['result'] as $key)  {?>
                     <tr>
                         <td><?php echo $no++; ?></td>
-                        <td><?php echo $key->kode_transportas; ?></td>
-                        <td><?php echo $key->name_transportasi; ?></td>
-                        <td><?php echo $key->name_jenis; ?></td>
-                        <td><?php echo $key->slot; ?></td>
-                        <td><?php echo ($key->status_aktif == 1) ? "<button class='btn btn-sm btn-success'  value='ON'> ON </button>" : "<button class='btn btn-sm btn-warning' value='OFF'> OFF </button>"  ; ?></td>
+                        <td><?php echo $key->asal; ?></td>
+                        <td><?php echo $key->tujuan; ?></td>
+                        <td><?php echo ($key->aktif == 1) ? "<button class='btn btn-sm btn-success'  value='ON'> ON </button>" : "<button class='btn btn-sm btn-warning' value='OFF'> OFF </button>"  ; ?></td>
+                        <td>
+                        <button class="btn btn-danger btn-sm" value="<?php echo $key->id_rute; ?>" onclick="return delete_(this.value)"> Delete </button>
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -56,76 +56,46 @@
       <div class="modal-body">
             <div class="row">
                 <div class="col-md-4">
-                    Kode Transportasi
+                    Asal 
                 </div>
                 <div class="col-md-1">
                     :
                 </div>
 
                 <div class="col-md-4">
-                    <input type="text" class="form-control" id="kode_transportasi">
+                    <input type="text" class="form-control" id="asal">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-4">
-                    Nama Transportasi
+                   Tujuan
                 </div>
                 <div class="col-md-1">
                     :
                 </div>
 
                 <div class="col-md-4">
-                    <input type="text" class="form-control" id="name_transportasi" >
+                    <input type="text" class="form-control" id="tujuan" >
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-4">
-                    Jenis Transportasi
+                   Tujuan
                 </div>
                 <div class="col-md-1">
                     :
                 </div>
 
                 <div class="col-md-4">
-                    <select name="jenis" id="jenis_transportasi" class="form-control" id="jenis_transportasi">
-                       <?php foreach($data['jenis_transportasi'] as $key) {?>
-                                <option value="<?php echo $key->id_jenis_transportasi; ?>"> <?php echo $key->name_jenis; ?> </option>
-                       <?php } ?>
-                    </select>
+                  <select name="status" id="status">
+                    <option value="1"> Aktif </option>
+                    <option value="0"> Non Aktif </option>
+                  </select>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-4">
-                    SLOT Penumpang
-                </div>
-                <div class="col-md-1">
-                    :
-                </div>
-
-                <div class="col-md-4">
-                    <input type="text" class="form-control" id="slot" >
-                </div>
-            </div>
-
-            
-            <div class="row">
-                <div class="col-md-4">
-                    Status
-                </div>
-                <div class="col-md-1">
-                    :
-                </div>
-
-                <div class="col-md-4">
-                <select name="status" class="form-control" id="status">
-                        <option value="1">ON</option>
-                        <option value="0">OFF</option>
-                </select>
-                </div>
-            </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" onClick="return add()">Submit</button>
@@ -140,20 +110,17 @@
 
 function add() {
    
-    let kode_transportasi    = $('#kode_transportasi').val();
-    let name_transportasi   = $('#name_transportasi').val();
-    let jenis_transportasi  = $('#jenis_transportasi').val();
-    let slot                = $('#slot').val();
-    let status              = $('#status').val();
+    let asal    = $('#asal').val();
+    let tujuan   = $('#tujuan').val();
+    let status  = $('#status').val();
+
 
     $.ajax({
-        url : "<?php echo base_url().'dashboard/Transportasi/store'; ?>",
+        url : "<?php echo base_url().'dashboard/Rute/store'; ?>",
         data : {
-            name_transportasi : name_transportasi,
-            slot : slot,
-            jenis_transportasi : jenis_transportasi,
+            asal : asal,
+            tujuan : tujuan,
             status : status,
-            kode_transportasi : kode_transportasi
         },
         type : 'POST',
         dataType:"JSON",
@@ -169,4 +136,38 @@ function add() {
         }
     })
 }
+
+function delete_(id) {
+    swal({
+            title: "",
+            text: "Are you delete this data ?!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+            if (willDelete) {
+               $.ajax({
+                url : "<?php echo base_url().'dashboard/Rute/delete'; ?>",
+                   data : {
+                       id : id
+                   },
+                   type : 'POST',
+                   dataType : 'JSON',
+                   success:function(res){
+    
+                    if (res.status == 'success')  {
+                        swal({title: "Good job", text: res.message, type: 
+                            "success"}).then(function(){ 
+                            location.reload();
+                            }
+                        );
+                    } 
+                   }
+               })
+            } else {
+                swal("Data cancelled delete");
+            }
+            });
+    }
 </script>

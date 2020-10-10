@@ -15,7 +15,7 @@
     <div class="card-content">
         
         <div class="table-responsive">
-        <table class="table table-bordered" style="margin:5px">
+        <table class="table table-bordered list_data" style="margin:5px">
             <thead>
                 <tr>
                     <th>No</th>
@@ -24,6 +24,7 @@
                     <th>Jenis Transportasi</th>
                     <th>Slot </th>
                     <th>Status Aktif </th>
+                    <th>Action </th>
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +36,9 @@
                         <td><?php echo $key->name_jenis; ?></td>
                         <td><?php echo $key->slot; ?></td>
                         <td><?php echo ($key->status_aktif == 1) ? "<button class='btn btn-sm btn-success'  value='ON'> ON </button>" : "<button class='btn btn-sm btn-warning' value='OFF'> OFF </button>"  ; ?></td>
+                        <td> 
+                                <button class="btn btn-danger btn-sm" value="<?php echo $key->id_transportasi; ?>" onclick="return delete_(this.value)"> Delete </button>
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -136,15 +140,15 @@
 </div>
 
 
+
 <script>
 
 function add() {
-   
-    let kode_transportasi    = $('#kode_transportasi').val();
-    let name_transportasi   = $('#name_transportasi').val();
-    let jenis_transportasi  = $('#jenis_transportasi').val();
-    let slot                = $('#slot').val();
-    let status              = $('#status').val();
+    let kode_transportasi    = $('#kode_transportasi_txt').val();
+    let name_transportasi   = $('#name_transportasi_txt').val();
+    let jenis_transportasi  = $('#jenis_transportasi_txt').val();
+    let slot                = $('#slot_txt').val();
+    let status              = $('#status_txt').val();
 
     $.ajax({
         url : "<?php echo base_url().'dashboard/Transportasi/store'; ?>",
@@ -169,4 +173,40 @@ function add() {
         }
     })
 }
+
+function delete_(id) {
+    swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+            if (willDelete) {
+               $.ajax({
+                url : "<?php echo base_url().'dashboard/Transportasi/delete'; ?>",
+                   data : {
+                       id : id
+                   },
+                   type : 'POST',
+                   dataType : 'JSON',
+                   success:function(res){
+    
+                    if (res.status == 'success')  {
+                        swal({title: "Good job", text: res.message, type: 
+                            "success"}).then(function(){ 
+                            location.reload();
+                            }
+                        );
+                    } 
+                   }
+               })
+            } else {
+                swal("Data cancelled delete");
+            }
+            });
+    }
+
+
 </script>

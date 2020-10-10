@@ -26,10 +26,17 @@
     <!-- END PAGE LEVEL JS-->
 
     <!-- datatatbles -->
-    <script src="<?php echo base_url().'assets/datatables/dataTables.bootstrap.js' ?>"> </script>
-    <script src="<?php echo base_url().'assets/datatables/jquery.dataTables.js' ?>"> </script>
+    <script src="<?php echo base_url().'assets/datatables/media/js/dataTables.bootstrap.js' ?>"> </script>
+    <script src="<?php echo base_url().'assets/datatables/media/js/jquery.dataTables.js' ?>"> </script>
     
     <!-- sweetAlert -->
     <script src="<?php echo base_url().'assets/sweetalertjs/sweetAlert.min.js' ?>" type="text/javascript"></script>
   </body>
 </html>
+
+
+<script>
+$(document).ready( function () {
+    $('.list_data').DataTable();
+} );
+</script>`

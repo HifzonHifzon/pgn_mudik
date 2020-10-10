@@ -58,12 +58,30 @@ class Transportasi extends CI_Controller{
     }
 
     public function getById(){
-        
+        $id = $this->input->post('id');
+        $where  = ['a.id_transportasi' => $id];
+        $exec = $this->Transportasi_model->getById($where);
+        echo json_encode($exec);
     }
 
 
     public function delete(){
-        
+        $id = $this->input->post('id');
+        $where  = ['id_transportasi' => $id];
+        $exec = $this->Transportasi_model->deleteData($where);
+        if($exec) {
+            $data = [
+                "status" => "success",
+                "message" => "Data berhasil dihapus"
+            ];
+            echo json_encode($data);
+        } else {
+            $data = [
+                "status" => "failed",
+                "message" => "Data gagal dihapus"
+            ];
+            echo json_encode($data);
+        }
     }
 }
 

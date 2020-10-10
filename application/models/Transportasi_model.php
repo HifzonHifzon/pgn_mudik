@@ -23,20 +23,8 @@ class Transportasi_model extends CI_Model{
         return $data;
     }
 
-    public function getById(){
-        $this->db->where($data);
-        $data = $this->db->where($this->table)->result();
-        return $data;
-    }
-
-    public function updateData($data, $where){
-        $this->db->where($where);
-        $data = $this->db->update($this->table, $data);
-        return $data;
-    }
-
     public function deleteData($where){
-        $this->db->where($data);
+        $this->db->where($where);
         $data = $this->db->delete($this->table);
         return $data;
     }

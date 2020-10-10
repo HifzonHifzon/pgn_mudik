@@ -15,7 +15,7 @@
     <div class="card-content">
         
         <div class="table-responsive">
-        <table class="table table-bordered" style="margin:5px">
+        <table class="table table-bordered list_data" style="margin:5px">
             <thead>
                 <tr>
                     <th>No</th>

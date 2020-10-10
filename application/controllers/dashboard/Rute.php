@@ -5,17 +5,15 @@ class Rute extends CI_Controller{
     function __construct(){
         parent::__construct();
 
-        $this->load->model('Transportasi_model');
+        $this->load->model('Rute_model');
     }
     public function index(){
-        $result = $this->Transportasi_model->getAll();
-        $jenis_transportasi = $this->Transportasi_model->getJenis();
+        $result = $this->Rute_model->getAll();
 
         $data = [
             "title"     => "List Master Rute",
             "kontent"   => 'dashboard/konten/master_rute',
             "result"    => $result,
-            "jenis_transportasi" => $jenis_transportasi
         ];
 
         $this->load->view('dashboard/template/layout', ["data" => $data]);
@@ -23,47 +21,52 @@ class Rute extends CI_Controller{
 
 
     public function store(){
-        $name_transportasi = $this->input->post('name_transportasi');
-        $kode_transportasi = $this->input->post('kode_transportasi');
-        $jenis_transportasi = $this->input->post('jenis_transportasi');
-        $slot = $this->input->post('slot');
-        $status = $this->input->post('status');
+        $asal = $this->input->post('asal');
+        $tujuan = $this->input->post('tujuan');
+        $aktif = $this->input->post('aktif');
 
         $data = [
-            "kode_transportas" => $kode_transportasi,
-            "name_transportasi" => $name_transportasi,
-            "slot"  => $slot,
-            "status_aktif" => $status,
-            "jenis_transportasi" => $jenis_transportasi
+            "asal" => $asal,
+            "tujuan" => $tujuan,
+            "aktif"  => $aktif,
         ];
 
-        $exec = $this->Transportasi_model->addSave($data);
+        $exec = $this->Rute_model->addSave($data);
         if($exec) {
             $data = [
                 "status" => "success",
                 "message" => "Data berhasil ditambahakan"
             ];
-            echo json_encode($data);
         } else {
             $data = [
                 "status" => "failed",
                 "message" => "Data gagal ditambahakan"
             ];
-            echo json_encode($data);
         }
-    }
 
-    public function update(){
-        
-    }
-
-    public function getById(){
-        
+        echo json_encode($data);
     }
 
 
     public function delete(){
-        
+        $id = $this->input->post('id');
+        $where  = ['id_rute' => $id];
+        $exec = $this->Rute_model->deleteData($where);
+
+        if($exec) {
+            $data = [
+                "status" => "success",
+                "message" => "Data berhasil dihapus"
+            ];
+         
+        } else {
+            $data = [
+                "status" => "failed",
+                "message" => "Data gagal dihapus"
+            ];
+        }
+
+        echo json_encode($data);
     }
 }
 
