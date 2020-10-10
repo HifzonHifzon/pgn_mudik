@@ -10,8 +10,11 @@
 		<h1>Search Pagination Session dengan Codeigniter</h1>
 
 		<form action="<?php echo site_url('welcome/index/'); ?>" method="post">
-		<p>
-			<input type="search" name="cari" placeholder="Search Keyword..."> <input type="submit" name="q" value="Search">
+		<p>	
+			
+			<input type="search" name="nama" placeholder="nama"> 
+			<input type="search" name="jurusan" placeholder="jurusan"> 
+			<input type="submit" name="q" value="Search">
 		</p>
 		<table border="1" width="780px">
 			<thead>

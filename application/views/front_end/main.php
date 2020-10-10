@@ -1,3 +1,5 @@
+
+
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,7 +82,7 @@
 <center>
         <div class="box_header">
             <H3>   Bersama PGN Mudik Bersama  </H3> 
-            <h6> <?php echo $list['indo_positif_covid'] ?></h6>
+            <h6> </h6>
         </div>
     <div class="container-fluid">
         <div class="box_search">
@@ -138,16 +140,26 @@
                 <div class="col-md-12">
                 <center>
                 <div class="row" style="margin-left:30px">
-                    <?php for($x=1; $x<=8; $x++) {?>
+                <?php
+				if (count((array)$ListBerita) > 0) {
+					foreach($ListBerita as $row)
+					{ ?>
                         <div class="col-sm-6 col-sm-6 col-md-3" style="margin-top:40px; margin-left:-17px">
                             <img src="<?php echo base_url().'assets/images/bus1.jpg'; ?>" width="230px" height="150px">
-                            <p> KAPAL INDO54 <br><b> Jakarta - Surabaya </b><br>
+                            <p> <?php echo $row['name_transportasi']; ?> <br><b> Jakarta - Surabaya </b><br>
                              <h6> 06:00 - 08:00 </h6>
                             <hr>
                          
-                            <button class="btn btn-success btn-sm img_content" data-toggle="modal" data-target="#booking"> Booking </button>
+                            <button class="btn btn-success btn-sm img_content" data-toggle="modal" data-target="#booking"> Daftar </button>
                         </div> 
-                    <?php } ?>
+                    
+                  <?php
+					}
+					echo "<center> <h2 style='color:black'; margin-bottom:10px; text-align:center>".$this->pagination->create_links()."</h2> </center>";
+				} else {
+					echo "<center> <h4> Rute perjalanan yang dicari tidak ada </h4> </center>";
+				}
+				?>
                 </div>
                 </center>
                 </div>
@@ -175,12 +187,15 @@
     <div class="modal-content">
 
       <div class="modal-header">
-        <h4 class="modal-title">Modal Heading</h4>
+        <h4 class="modal-title">Booking Mudik Gratis</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
       <div class="modal-body">
-       
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+            </div>
       </div>
 
 

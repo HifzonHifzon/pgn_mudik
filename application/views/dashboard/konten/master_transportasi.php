@@ -65,8 +65,9 @@
                 <div class="col-md-1">
                     :
                 </div>
-
+                    
                 <div class="col-md-4">
+                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                     <input type="text" class="form-control" id="kode_transportasi">
                 </div>
             </div>

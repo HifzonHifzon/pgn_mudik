@@ -6,21 +6,24 @@ class Welcome extends CI_Controller {
 	{
 
 		if (isset($_POST['q'])) {
-            $data['ringkasan'] = $this->input->post('cari');
+            $data['nama'] = $this->input->post('nama');
+            $data['jurusan'] = $this->input->post('jurusan');
             
-            // exit();
 			// se session userdata untuk pencarian, untuk paging pencarian
-			$this->session->set_userdata('sess_ringkasan', $data['ringkasan']);
+			$this->session->set_userdata('nama', $data['nama']);
+			$this->session->set_userdata('jurusan', $data['jurusan']);
 		}
 		else {
-			$data['ringkasan'] = $this->session->userdata('sess_ringkasan');
+			$data['nama'] = $this->session->userdata('nama');
+			$data['jurusan'] = $this->session->userdata('jurusan');
 		}
 
 
 		// load model
 		$this->load->model('modul');
 
-		$this->db->like('nama', $data['ringkasan']);
+		$this->db->like('nama', $data['nama']);
+		$this->db->like('jurusan', $data['jurusan']);
         $this->db->from('pagination');
 
 		// pagination limit
@@ -38,7 +41,7 @@ class Welcome extends CI_Controller {
 
 		$this->pagination->initialize($pagination);
 
-		$data['ListBerita'] = $this->modul->ambildata($pagination['per_page'],$this->uri->segment(4,0),$data['ringkasan']);
+		$data['ListBerita'] = $this->modul->ambildata($pagination['per_page'],$this->uri->segment(4,0),$data['nama'], $data['jurusan']);
 
 		$this->load->vars($data);
 		$this->load->view('index');
