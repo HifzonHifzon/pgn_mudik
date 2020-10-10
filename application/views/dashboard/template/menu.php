@@ -32,14 +32,14 @@
           </li>
 
           <li class=" nav-item">
-              <a href="<?php echo base_url().'dashboard/Keberangkatan' ?>">
+              <a href="<?php echo base_url().'dashboard/JadwalBerangkat' ?>">
               <i class="icon-share"></i>
                         <span data-i18n="nav.support_documentation.main" class="menu-title">Jadwal Keberangkatan</span>
               </a>
           </li>
 
           <li class=" nav-item">
-              <a href="<?php echo base_url().'dashboard/Transkasi' ?>">
+              <a href="<?php echo base_url().'dashboard/TransaksiBerangkat' ?>">
               <i class="icon-share"></i>
                         <span data-i18n="nav.support_documentation.main" class="menu-title">Transaksi Keberangkatan</span>
               </a>

@@ -8,11 +8,11 @@ class JenisTransportasi extends CI_Controller{
         $this->load->model('JenisTransportasi_model');
     }
     public function index(){
-        $result = $this->Rute_model->getAll();
+        $result = $this->JenisTransportasi_model->getAll();
 
         $data = [
-            "title"     => "List Master Rute",
-            "kontent"   => 'dashboard/konten/master_rute',
+            "title"     => "List Master Jenis Transportasi",
+            "kontent"   => 'dashboard/konten/master_jenis_transportasi',
             "result"    => $result,
         ];
 
@@ -21,17 +21,16 @@ class JenisTransportasi extends CI_Controller{
 
 
     public function store(){
-        $asal = $this->input->post('asal');
-        $tujuan = $this->input->post('tujuan');
-        $aktif = $this->input->post('aktif');
+        $name_jenis = $this->input->post('name_jenis');
+        $status = $this->input->post('status');
 
         $data = [
-            "asal" => $asal,
-            "tujuan" => $tujuan,
-            "aktif"  => $aktif,
+            "name_jenis" => $name_jenis,
+            "status" => $status,
         ];
 
-        $exec = $this->Rute_model->addSave($data);
+        $exec = $this->JenisTransportasi_model->addSave($data);
+
         if($exec) {
             $data = [
                 "status" => "success",
@@ -50,8 +49,8 @@ class JenisTransportasi extends CI_Controller{
 
     public function delete(){
         $id = $this->input->post('id');
-        $where  = ['id_rute' => $id];
-        $exec = $this->Rute_model->deleteData($where);
+        $where  = ['id_jenis_transportasi' => $id];
+        $exec = $this->JenisTransportasi_model->deleteData($where);
 
         if($exec) {
             $data = [
