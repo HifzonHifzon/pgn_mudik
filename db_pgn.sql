@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 11 Okt 2020 pada 08.33
+-- Waktu pembuatan: 11 Okt 2020 pada 09.43
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.2.33
 
@@ -194,6 +194,13 @@ CREATE TABLE `tbl_peserta` (
   `email` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data untuk tabel `tbl_peserta`
+--
+
+INSERT INTO `tbl_peserta` (`id_peserta`, `name`, `img1`, `pass`, `jenis_kelamin`, `img2`, `email`) VALUES
+(46, 'Hifzon', 'Hifzon.png', 'zp.nionH', 'pria', 'KTP HIFZON.jpg', 'hifzon746@gmail.com');
+
 -- --------------------------------------------------------
 
 --
@@ -208,6 +215,13 @@ CREATE TABLE `tbl_transaksi_berangkat` (
   `submit_date` datetime DEFAULT NULL,
   `verifikasi` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tbl_transaksi_berangkat`
+--
+
+INSERT INTO `tbl_transaksi_berangkat` (`id_transaksi_berangkat`, `id_peserta`, `id_jadwal_berangkat`, `jumlah_peserta`, `submit_date`, `verifikasi`) VALUES
+(35, 46, 11, '4', '2020-10-11 00:00:00', 'yes');
 
 --
 -- Indexes for dumped tables
@@ -287,13 +301,13 @@ ALTER TABLE `tbl_master_transportasi`
 -- AUTO_INCREMENT untuk tabel `tbl_peserta`
 --
 ALTER TABLE `tbl_peserta`
-  MODIFY `id_peserta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id_peserta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_transaksi_berangkat`
 --
 ALTER TABLE `tbl_transaksi_berangkat`
-  MODIFY `id_transaksi_berangkat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_transaksi_berangkat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
