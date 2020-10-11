@@ -1,5 +1,3 @@
-
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -86,54 +84,50 @@
         </div>
     <div class="container-fluid">
         <div class="box_search">
+        <form action="<?php echo site_url('main/index/'); ?>" method="post">
+
+            <!-- list refrensi dari tbl_master_jenis_transportasi -->
             <div class="row">
                 <div class="col-md-2">
-                    <select name="type_kendaraan" id="type_kendaraan" class="form-control">
-                        <option value=""> Type Kendaraan </option>
-                        <option value="kapal"> Kapal </option>
-                        <option value="bis"> Bis </option>
+                    <select name="name_transportasi" id="type_kendaraan" class="form-control">
+                        <option value=""> Name Transportasi </option>
+                        <?php foreach($list_transportasi as $key) {?>
+                                <option value="<?php echo $key->id_transportasi; ?>">
+                                    <?php echo $key->name_transportasi; ?>
+                                </option>
+                        <?php } ?>
                     </select>
                 </div>
 
-
+                <!-- List Asal dan Tujuan sudah ditentukan berdasarkan Kota yang telah dijadwalkan admin -->
                 <div class="col-md-2">
-                    <select name="rute_perjalanan" id="rute_perjalanan" class="form-control">
+                    <select name="rute_perjalanan" id="rute" class="form-control">
                         <option value=""> Rute ASAL </option>
-                        <option value=""> Pilih Rute</option>
-                        <option> Makasar  </option>
-                        <option> Jakarta  </option>
-                        <option> Bandung  </option>
-                        <option> Jakarta  </option>
-                        <option> Jakarta  </option>
+                        <?php foreach($list_kota_berangkat as $keys) { ?>
+                            <option value="<?php echo $keys->id_rute; ?>">
+                                <?php echo $keys->asal. " - ".$keys->tujuan; ?>
+                            </option>
+                        <?php }?>
                     </select>
                 </div>
 
+               
                 <div class="col-md-2">
-                    <select name="rute_perjalanan" id="rute_perjalanan" class="form-control">
-                        <option value=""> Rute TUJUAN </option>
-                        <option value=""> Pilih Rute</option>
-                        <option> Makasar  </option>
-                        <option> Jakarta  </option>
-                        <option> Bandung  </option>
-                        <option> Jakarta  </option>
-                        <option> Jakarta  </option>
-                    </select>
+                    <input type="date" class="form-control" name="tanggal_berangkat" placeholder='Tanggal Berangkat'>
                 </div>
 
-                <div class="col-md-2" style="margin-top:15px">
-                   <h6>Tanggal Berangkat</h6>
-                </div>
                 <div class="col-md-2">
-                    <input type="date" class="form-control" placeholder='Tanggal Berangkat'>
+                   <button class="btn btn-info btn-sm search_btn" name="q" style="width:100%; padding-bottom:30px"> SEARCH </button>
                 </div>
 
-                <div class="col-md-1">
-                   <button class="btn btn-info btn-sm search_btn" style="width:100%; padding-bottom:30px"> SEARCH </button>
+                <div class="col-md-4">
+                  <h6> Info Kesembuhan Covid-19 Indonesia : </h6> <h4> <?php echo $data_covid[0]->sembuh; ?> </h4>
+                  <h6> API <i> : https://api.kawalcorona.com/indonesia/ </i></h6>
                 </div>
             </div>
         </div>
 
-
+        </form>
         
         <div class="box_search">
             <div class="row">
@@ -145,31 +139,32 @@
 					foreach($ListBerita as $row)
 					{ ?>
                         <div class="col-sm-6 col-sm-6 col-md-3" style="margin-top:40px; margin-left:-17px">
-                            <img src="<?php echo base_url().'assets/images/bus1.jpg'; ?>" width="230px" height="150px">
-                            <p> <?php echo $row['name_transportasi']; ?> <br><b> Jakarta - Surabaya </b><br>
-                             <h6> 06:00 - 08:00 </h6>
+                            <img src="<?php echo base_url().'assets/bis/'.$row['image']; ?>" width="230px" height="150px">
+                            <p> <?php echo $row['name_transportasi']; ?> <br><b> <?php echo $row['asal']. " - ".$row['tujuan'];?> </b><br>
+                             <h6> <?php echo $row['tanggal_berangkat']; ?> </h6>
                             <hr>
-                         
-                            <button class="btn btn-success btn-sm img_content" data-toggle="modal" data-target="#booking"> Daftar </button>
+                        
+                            <button class="btn btn-success btn-sm img_content" data-toggle="modal" data-target="#booking" onclick="booking(<?php echo $row['id_berangkat']; ?>)">
+                             Daftar </button>
+                            <hr>
                         </div> 
                     
                   <?php
 					}
-					echo "<center> <h2 style='color:black'; margin-bottom:10px; text-align:center>".$this->pagination->create_links()."</h2> </center>";
+					echo "<center> <h2 margin-bottom:10px; text-align:center>".$this->pagination->create_links()."</h2> </center>";
 				} else {
 					echo "<center> <h4> Rute perjalanan yang dicari tidak ada </h4> </center>";
 				}
 				?>
                 </div>
                 </center>
-                </div>
-
-             
+                </div>          
             </div>
         </div>
     </div>
+    
     <div class="box_footer">
-            @copyright Perusahaan Gas Negara 
+            Perusahaan Gas Negara 
     </div>
 </center>
 
@@ -192,17 +187,123 @@
       </div>
 
       <div class="modal-body">
+
+      <form class="form-horizontal" action="<?php echo base_url().'main/do_upload_images'?>"  method="POST" enctype='multipart/form-data'>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-xs-3 col-md-3">
+                    Nama Lengkap 
+                </div>
+                <div class="col-xs-3 col-md-1">
+                    :
+                </div>
+                <div class="col-xs-3 col-md-3">
+                    <input type="hidden" class="form-control id_berangkat" name="id_berangkat" value="">
+                    <input type="text" class="form-control" name="nama_lengkap">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xs-3 col-md-3">
+                    Jenis Kelamin
+                </div>
+                <div class="col-xs-3 col-md-1">
+                    :
+                </div>
+                <div class="col-xs-3 col-md-3">
+                    <input type="radio"  name="jeniskelamin" value="pria" checked> Pria
+                    <input type="radio"  name="jeniskelamin" value="perempuan"> Perempuan
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-3 col-md-3">
+                    Email
+                </div>
+                <div class="col-xs-3 col-md-1">
+                    :
+                </div>
+                <div class="col-xs-3 col-md-3">
+                    <input type="text" class="form-control" name="email">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-3 col-md-3">
+                   Upload KTP & Foto 
+                </div>
+                <div class="col-xs-3 col-md-1">
+                    :
+                </div>
+                <div class="col-xs-3 col-md-3">
+                    <input type="file" name="files[]" multiple="">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xs-3 col-md-3">
+                    Jumlah yang didaftarkan
+                </div>
+                <div class="col-xs-3 col-md-1">
+                    :
+                </div>
+                <div class="col-xs-3 col-md-3">
+                    <input type="text" name="jumlah_peserta" class="form-control">
                 </div>
             </div>
       </div>
 
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      <input type="submit" name="submit" id="submit" />
       </div>
+
+      </form>
 
     </div>
   </div>
 </div>
+
+
+<script>
+    $('input[name="ktp"]').keyup(function(e) {
+        if (/\D/g.test(this.value))
+        {
+            // Filter non-digits from input value.
+            this.value = this.value.replace(/\D/g, '');
+        }
+    });
+    $('input[name="jumlah_orang"]').keyup(function(e) {
+        if (/\D/g.test(this.value))
+        {
+            // Filter non-digits from input value.
+            this.value = this.value.replace(/\D/g, '');
+        }
+    });
+
+    function booking(id_berangkat) {
+        $('.id_berangkat').val(id_berangkat);
+        $('#upload_file').submit(function(e) {
+            e.preventDefault();
+            $.ajaxFileUpload({
+                url 			:'<?php echo base_url().'main/booking' ?>', 
+                secureuri		:false,
+                fileElementId	:'userfile',
+                dataType		: 'json',
+                data			: {
+                    id : id_berangkat 
+                },
+                success	: function (res)
+                {
+                    alert('assad');
+                }
+            });
+            return false;
+	});
+
+    }
+
+  
+    
+</script>

@@ -2,7 +2,7 @@
     <div class="card-header">
         <h4 class="card-title"><?php echo $data['title'] ?></h4>
         <div class="pull-right">
-            <button class="btn btn-success pull-right" data-toggle="modal" data-target="#add_transportasi" > Add </button>
+            <button class="btn btn-success pull-right" data-toggle="modal" data-target="#add_jadwal_berangkat" > Add </button>
         </div>
         <a class="heading-elements-toggle"><i class="ft-more-horizontal font-medium-3"></i></a>
         <div class="heading-elements">
@@ -13,7 +13,6 @@
         </div>
     </div>
     <div class="card-content">
-        
         <div class="table-responsive">
         <table class="table table-bordered list_data" style="margin:5px">
             <thead>
@@ -51,7 +50,7 @@
 </div>
 
 
-<div class="modal" id="add_transportasi">
+<div class="modal" id="add_jadwal_berangkat">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -61,41 +60,101 @@
       </div>
 
       <div class="modal-body">
+
             <div class="row">
                 <div class="col-md-4">
-                    Jenis Transportasi
+                    Asal 
                 </div>
                 <div class="col-md-1">
                     :
                 </div>
 
                 <div class="col-md-4">
-                    <input type="text" class="form-control" id="name_jenis_transportasi">
+                    <select name="id_rute" id="id_rute" class="form-control">
+                        <option value="">Pilih Rute </option>
+                        <?php for($x=0; $x<sizeof($data['list_rute']); $x++) { ?>
+                            <option value="<?php echo $data['list_rute'][$x]->id_rute; ?>"><?php echo $data['list_rute'][$x]->asal. " - ".$data['list_rute'][$x]->tujuan ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-md-4">
-                    Status
+                    Transportasi 
                 </div>
                 <div class="col-md-1">
                     :
                 </div>
 
                 <div class="col-md-4">
-                <select name="status" class="form-control" id="status">
-                        <option value="1">ON</option>
-                        <option value="0">OFF</option>
-                </select>
+                    <select name="id_transportasi" id="id_transportasi" class="form-control">
+                        <option value="">Pilih Transportasi </option>
+                        <?php for($x=0; $x<sizeof($data['list_transportasi']); $x++) { ?>
+                            <option value="<?php echo $data['list_transportasi'][$x]->id_transportasi; ?>"><?php echo $data['list_transportasi'][$x]->name_transportasi; ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    Tanggal Berangkat 
+                </div>
+                <div class="col-md-1">
+                    :
+                </div>
+
+                <div class="col-md-4">
+                    <input type="date" id="tanggal_berangkat" class="form-control">
+                </div>
+            </div>
+         
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" onClick="return add()">Submit</button>
+        <button type="button" class="btn btn-danger" onclick="add()">Submit</button>
       </div>
+
+    
 
     </div>
   </div>
 </div>
+
+<script>
+
+function add() {
+   
+    let id_transportasi    = $('#id_transportasi').val();
+    let id_rute   = $('#id_rute').val();
+    let tanggal_berangkat  = $('#tanggal_berangkat').val();
+
+
+    alert(id_transportasi+id_rute+tanggal_berangkat)
+
+
+    $.ajax({
+        url : "<?php echo base_url().'dashboard/JadwalBerangkat/insertJadwalBerangkat'; ?>",
+        data : {
+            id_transportasi : id_transportasi,
+            id_rute : id_rute,
+            tanggal_berangkat : tanggal_berangkat,
+        },
+        type : 'POST',
+        dataType:"JSON",
+        success:function(res) {
+            swal({title: res.status, text: res.message, type: 
+                "success"}).then(function(){ 
+                location.reload();
+                }
+            );
+        },
+        error:function() {
+            alert('erro')
+        }
+    })
+}
+
+</script>
 
 

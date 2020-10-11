@@ -1,9 +1,6 @@
 <div class="card">
     <div class="card-header">
         <h4 class="card-title"><?php echo $data['title'] ?></h4>
-        <div class="pull-right">
-            <button class="btn btn-success pull-right" data-toggle="modal" data-target="#add_transportasi" > Add </button>
-        </div>
         <a class="heading-elements-toggle"><i class="ft-more-horizontal font-medium-3"></i></a>
         <div class="heading-elements">
             <ul class="list-inline mb-0">
@@ -19,23 +16,43 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Kode Transportasi</th>
-                    <th>Name Transportasi</th>
-                    <th>Jenis Transportasi</th>
-                    <th>Slot </th>
-                    <th>Status Aktif </th>
+                    <th>Nama Peserta</th>
+                    <th>Jumlah Peserta</th>
+                    <th>Asal </th>
+                    <th>Tujuan</th>
+                    <th>Transportasi</th>
+                    <th>KTP</th>
+                    <th>Tanggal Berangkat</th>
+                    <th>Verifikasi</th>
+                    <th>Status Verivikasi</th>
                 </tr>
             </thead>
             <tbody>
                 <?php $no=1; foreach($data['result'] as $key)  {?>
                     <tr>
                         <td><?php echo $no++; ?></td>
-                        <td><?php echo $key->kode_transportas; ?></td>
+                        <td><?php echo $key->peserta; ?></td>
+                        <td><?php echo $key->jumlah_peserta; ?></td>
+                        <td><?php echo $key->asal; ?></td>
+                        <td><?php echo $key->tujuan; ?></td>
                         <td><?php echo $key->name_transportasi; ?></td>
-                        <td><?php echo $key->name_jenis; ?></td>
-                        <td><?php echo $key->slot; ?></td>
-                        <td><?php echo ($key->status_aktif == 1) ? "<button class='btn btn-sm btn-success'  value='ON'> ON </button>" : "<button class='btn btn-sm btn-warning' value='OFF'> OFF </button>"  ; ?></td>
-                    </tr>
+                        <td> 
+                              <a  data-toggle="modal" data-target="#detail_ktp" onclick="detail_ktp(<?php echo $key->id_peserta; ?>)">DETAIL</a>
+                        </td>
+                        <td><?php echo $key->tanggal_berangkat; ?></td>
+                        <td>
+                                <?php echo ($key->verifikasi == 'yes') ? 
+                                        "-" 
+                                        : "<button class='btn btn-sm btn-primary' value='$key->id_transaksi_berangkat' onclick='verifikasi(this.value)'> Belum di verifikasi </button>"  ; 
+                                ?>
+                        </td>
+                        <td>
+                                <?php echo ($key->verifikasi == 'yes') ? 
+                                        "<button class='btn btn-sm btn-success'  value='ON'> Done Verifikasi </button>" 
+                                        : "<button class='btn btn-sm btn-warning' value='OFF'> Belum di verifikasi </button>"  ; 
+                                ?>
+                                </td>
+                    </tr>  
                 <?php } ?>
             </tbody>
         </table>
@@ -43,93 +60,20 @@
     </div>
 </div>
 
-
-<div class="modal" id="add_transportasi">
+<div class="modal" id="detail_ktp">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h4 class="modal-title">Add Trasnportasi</h4>
+        <h4 class="modal-title">Detail KTP & Foto </h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
-      <div class="modal-body">
-            <div class="row">
-                <div class="col-md-4">
-                    Kode Transportasi
-                </div>
-                <div class="col-md-1">
-                    :
-                </div>
-
-                <div class="col-md-4">
-                    <input type="text" class="form-control" id="kode_transportasi">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    Nama Transportasi
-                </div>
-                <div class="col-md-1">
-                    :
-                </div>
-
-                <div class="col-md-4">
-                    <input type="text" class="form-control" id="name_transportasi" >
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    Jenis Transportasi
-                </div>
-                <div class="col-md-1">
-                    :
-                </div>
-
-                <div class="col-md-4">
-                    <select name="jenis" id="jenis_transportasi" class="form-control" id="jenis_transportasi">
-                       <?php foreach($data['jenis_transportasi'] as $key) {?>
-                                <option value="<?php echo $key->id_jenis_transportasi; ?>"> <?php echo $key->name_jenis; ?> </option>
-                       <?php } ?>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    SLOT Penumpang
-                </div>
-                <div class="col-md-1">
-                    :
-                </div>
-
-                <div class="col-md-4">
-                    <input type="text" class="form-control" id="slot" >
-                </div>
-            </div>
-
-            
-            <div class="row">
-                <div class="col-md-4">
-                    Status
-                </div>
-                <div class="col-md-1">
-                    :
-                </div>
-
-                <div class="col-md-4">
-                <select name="status" class="form-control" id="status">
-                        <option value="1">ON</option>
-                        <option value="0">OFF</option>
-                </select>
-                </div>
-            </div>
+      <div class="modal-body">      
+        <div id="show_ktp">
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" onClick="return add()">Submit</button>
-      </div>
+     
 
     </div>
   </div>
@@ -137,36 +81,60 @@
 
 
 <script>
-
-function add() {
-   
-    let kode_transportasi    = $('#kode_transportasi').val();
-    let name_transportasi   = $('#name_transportasi').val();
-    let jenis_transportasi  = $('#jenis_transportasi').val();
-    let slot                = $('#slot').val();
-    let status              = $('#status').val();
-
+function detail_ktp(id){
+    var link = "<?php echo base_url().'ktp/'?>";
     $.ajax({
-        url : "<?php echo base_url().'dashboard/Transportasi/store'; ?>",
-        data : {
-            name_transportasi : name_transportasi,
-            slot : slot,
-            jenis_transportasi : jenis_transportasi,
-            status : status,
-            kode_transportasi : kode_transportasi
-        },
-        type : 'POST',
-        dataType:"JSON",
-        success:function(res) {
-            swal({title: "Good job", text: res.message, type: 
-                "success"}).then(function(){ 
-                location.reload();
+                url : "<?php echo base_url().'dashboard/TransaksiBerangkat/getImageKtp'; ?>",
+                   data : {
+                       id : id
+                   },
+                   type : 'POST',
+                   dataType : 'JSON',
+                   success:function(res){
+
+                    var link_ktp ="<?php echo base_url().'image/'?>"+res[0].img1;
+                    var link_foto="<?php echo base_url().'image/'?>"+res[0].img2;
+
+                        var ktp = "";
+                        ktp +="<img src='"+link_ktp+"' height='250px'; width='400px'> KTP &nbsp &nbsp";
+                        ktp +="<img src='"+link_foto+"' height='300px'; width='200px'> FOTO";
+
+                        $('#show_ktp').html(ktp);
+                   
+                   }
+               })
+}
+function verifikasi(id) {
+
+    swal({
+        title: "Are you sure?",
+        text: "Are you verifikasi this data ? ",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        })
+        .then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+            url : "<?php echo base_url().'dashboard/TransaksiBerangkat/verifikasi'; ?>",
+                data : {
+                    id : id
+                },
+                type : 'POST',
+                dataType : 'JSON',
+                success:function(res){
+                    if (res.status == 'success')  {
+                        swal({title: "Good job", text: res.message, type: 
+                            "success"}).then(function(){ 
+                            location.reload();
+                            }
+                        );
+                    } 
                 }
-            );
-        },
-        error:function() {
-            alert('erro')
+            })
+        } else {
+            swal("Data cancelled delete");
         }
-    })
+    });
 }
 </script>

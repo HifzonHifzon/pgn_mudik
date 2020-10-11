@@ -2,7 +2,7 @@
     <div class="card-header">
         <h4 class="card-title"><?php echo $data['title'] ?></h4>
         <div class="pull-right">
-            <button class="btn btn-success pull-right" data-toggle="modal" data-target="#add_transportasi" > Add </button>
+            <button class="btn btn-success pull-right" data-toggle="modal" data-target="#add_jadwal_keberangkatan" > Add </button>
         </div>
         <a class="heading-elements-toggle"><i class="ft-more-horizontal font-medium-3"></i></a>
         <div class="heading-elements">
@@ -44,7 +44,7 @@
 </div>
 
 
-<div class="modal" id="add_transportasi">
+<div class="modal" id="add_jadwal_keberangkatan">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
