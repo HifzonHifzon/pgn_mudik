@@ -6,6 +6,9 @@ class JenisTransportasi extends CI_Controller{
         parent::__construct();
 
         $this->load->model('JenisTransportasi_model');
+        if ($this->session->userdata('email') == '') {
+            redirect(base_url().'login');
+        }
     }
     public function index(){
         $result = $this->JenisTransportasi_model->getAll();

@@ -6,6 +6,9 @@ class Transportasi extends CI_Controller{
         parent::__construct();
 
         $this->load->model('Transportasi_model');
+        if ($this->session->userdata('email') == '') {
+            redirect(base_url().'login');
+        }
     }
     public function index(){
         $result = $this->Transportasi_model->getAll();
@@ -53,9 +56,6 @@ class Transportasi extends CI_Controller{
         }
     }
 
-    public function update(){
-        
-    }
 
     public function getById(){
         $id = $this->input->post('id');

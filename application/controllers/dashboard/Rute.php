@@ -6,6 +6,9 @@ class Rute extends CI_Controller{
         parent::__construct();
 
         $this->load->model('Rute_model');
+        if ($this->session->userdata('email') == '') {
+            redirect(base_url().'login');
+        }
     }
     public function index(){
         $result = $this->Rute_model->getAll();

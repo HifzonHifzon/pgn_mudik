@@ -1,11 +1,27 @@
 <?php 
+
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+// pemanggilan Library Mailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 class JadwalBerangkat extends CI_Controller{
 
     function __construct(){
         parent::__construct();
 
         $this->load->model(['Penjadwalan_berangkat','Rute_model','Transportasi_model']);
+
+        $this->_ci = &get_instance(); // Set variabel _ci dengan Fungsi2-fungsi dari Codeigniter
+        require_once(APPPATH.'third_party/phpmailer/Exception.php');
+        require_once(APPPATH.'third_party/phpmailer/PHPMailer.php');
+        require_once(APPPATH.'third_party/phpmailer/SMTP.php');
+
+        if ($this->session->userdata('email') == '') {
+            redirect(base_url().'login');
+        }
+        
     }
 
 

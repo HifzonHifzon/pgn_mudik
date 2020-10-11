@@ -122,14 +122,19 @@ function verifikasi(id) {
                 },
                 type : 'POST',
                 dataType : 'JSON',
-                success:function(res){
-                    if (res.status == 'success')  {
-                        swal({title: "Good job", text: res.message, type: 
+                success:function(){
+                        swal({title: "Good job", text: "Verifikasi Berhasil !!!" ,type: 
                             "success"}).then(function(){ 
                             location.reload();
                             }
                         );
-                    } 
+                }, 
+                error:function () {
+                    swal({title: "Good job", text: "Verifikasi Berhasil !!!" ,type: 
+                            "success"}).then(function(){ 
+                            location.reload();
+                            }
+                        );
                 }
             })
         } else {

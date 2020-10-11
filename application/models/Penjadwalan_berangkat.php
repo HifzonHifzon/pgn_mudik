@@ -121,6 +121,36 @@ class Penjadwalan_berangkat extends CI_Model {
         
     }
 
+    public function getTransaksiBerangkatByPeserta($id_peserta) {
+        $query  =  "SELECT 				
+                        z.name as 'peserta',
+                        j.name_transportasi,
+                        a.jumlah_peserta,
+                        j.asal,
+                        j.tujuan,
+                        a.verifikasi,
+                        j.tanggal_berangkat,
+                        a.id_transaksi_berangkat,
+                        a.id_peserta,
+                        j.tanggal_berangkat
+                    FROM tbl_transaksi_berangkat AS a 
+                            inner join tbl_peserta as z on z.id_peserta = a.id_peserta
+                            inner join 
+                                (
+                                    select 
+                                        x.id_berangkat,
+                                        y.name_transportasi,
+                                        u.asal, 
+                                        u.tujuan,
+                                        x.tanggal_berangkat
+                                    from tbl_jadwal_berangkat as x
+                                        inner join tbl_master_transportasi as y on y.id_transportasi = x.id_transportasi
+                                        inner join tbl_master_rute as u on u.id_rute = x.id_rute
+                                ) as j on a.id_jadwal_berangkat = j.id_berangkat where a.id_peserta=$id_peserta";
+        $transaksi = $this->db->query($query)->result();
+        return $transaksi;
+    }
+
     public function insertJadwalBerangkat($data){
         $insert = $this->db->insert('tbl_jadwal_berangkat', $data);
         return $insert;

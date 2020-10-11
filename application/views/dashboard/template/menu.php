@@ -1,3 +1,4 @@
+
 <div data-scroll-to-active="true" class="main-menu menu-fixed menu-dark menu-accordion menu-shadow">
       <!-- main menu header-->
       <div class="main-menu-header">
@@ -8,7 +9,7 @@
       <div class="main-menu-content" style="margin-top:20px">
         <ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main">
         
-
+    <?php if ($this->session->userdata('email') == 'admin') { ?>
           <li class=" nav-item">
               <a href="<?php echo base_url().'dashboard/transportasi' ?>">
                   <i class="icon-share"></i>
@@ -44,10 +45,16 @@
                         <span data-i18n="nav.support_documentation.main" class="menu-title">Transaksi Keberangkatan</span>
               </a>
           </li>
+    <?php } else { ?>
+
+        <li class=" nav-item">
+              <a href="<?php echo base_url().'dashboard/MonitorTransaksi' ?>">
+              <i class="icon-share"></i>
+                        <span data-i18n="nav.support_documentation.main" class="menu-title">Monitrong Transaski</span>
+              </a>
+          </li>
+    <?php } ?>
         </ul>
       </div>
-      <!-- /main menu content-->
-      <!-- main menu footer-->
-      <!-- include includes/menu-footer-->
-      <!-- main menu footer-->
+
     </div>

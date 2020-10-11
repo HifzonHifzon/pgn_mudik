@@ -21,8 +21,6 @@ class Main extends CI_Controller {
 		$data['list_transportasi'] = $this->Transportasi_model->getAll();
 		$data['list_kota_berangkat'] = $this->Rute_model->getAll();
 
-		// var_dump($data['list_kota_berangkat'] );
-
         if (isset($_POST['q'])) {
             $data['tanggal_berangkat'] = $this->input->post('tanggal_berangkat');
             $data['rute'] = $this->input->post('rute');
@@ -108,6 +106,7 @@ class Main extends CI_Controller {
 			</script>';
 		} 
 
+
 		$data = [];
    
 		$count = count($_FILES['files']['name']);
@@ -141,8 +140,6 @@ class Main extends CI_Controller {
 		  }
 	 
 		}
-
-		
 
 		$img1 = $filenamess[0];
 		$img2 = $filenamess[1];
@@ -179,7 +176,6 @@ class Main extends CI_Controller {
 			window.location.href="./index";
 			</script>';
 		} 
-
 		
 	}
 
