@@ -14,8 +14,6 @@ class MonitorTransaksi extends CI_Controller{
     public function index(){
         $id_peserta = $this->session->userdata('id_peserta');
         $result = $this->Penjadwalan_berangkat->getTransaksiBerangkatByPeserta($id_peserta);
-
-    
         $data = [
             "title"     => "List Master Tansportasi",
             "kontent"   => 'dashboard/konten/monitoring_transaksi',

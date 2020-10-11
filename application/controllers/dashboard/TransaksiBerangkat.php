@@ -71,7 +71,18 @@ class TransaksiBerangkat extends CI_Controller{
                         !! <p> Silahkan login <p> User :".$email." <br> Password : ".$password." <p> link ".$link."";
 
             $data = $mail->send(); 
+
+            if ($data) {
+                $exec = [
+                    "status" => "sukses",
+                    "message" => "Verifikasi berhasil"
+                ];
+
+                echo json_encode($exec);
+            }
         }
+
+
      
 
       

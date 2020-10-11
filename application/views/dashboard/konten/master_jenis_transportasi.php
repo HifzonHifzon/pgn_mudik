@@ -20,7 +20,6 @@
                 <tr>
                     <th>No</th>
                     <th>Jenis Transportasi</th>
-                    <th>Status </th>
                     <th>Action </th>
                 </tr>
             </thead>
@@ -29,7 +28,6 @@
                     <tr>
                         <td><?php echo $no++; ?></td>
                         <td><?php echo $key->name_jenis; ?></td>
-                        <td><?php echo ($key->status == 1) ? "<button class='btn btn-sm btn-success'  value='ON'> ON </button>" : "<button class='btn btn-sm btn-warning' value='OFF'> OFF </button>"  ; ?></td>
                         <td>
                         <button class="btn btn-danger btn-sm" value="<?php echo $key->id_jenis_transportasi; ?>" onclick="return delete_(this.value)"> Delete </button>
                         </td>

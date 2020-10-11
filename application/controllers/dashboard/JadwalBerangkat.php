@@ -28,12 +28,9 @@ class JadwalBerangkat extends CI_Controller{
     public function index(){
 
         $jadwal_berangkat = $this->Penjadwalan_berangkat->getBerangkat(); 
-        
-
         $list_rute = $this->Rute_model->getAll();
         $list_transportasi =$this->Transportasi_model->getAll();
 
-        
         $data = [
             "title"     => "List Keberangkatan dan Slot Transportasi",
             "kontent"   => 'dashboard/konten/master_keberangkatan_slot_transportasi',
@@ -53,7 +50,6 @@ class JadwalBerangkat extends CI_Controller{
         $tanggal_berangkat = $this->input->post('tanggal_berangkat');
 
         // pengecekan penjadwalan transportasi di hari yang sama
-
         $check = $this->Penjadwalan_berangkat->checkJadwal($tanggal_berangkat, $id_transportasi);
 
         if ($check > 0) {
@@ -87,8 +83,6 @@ class JadwalBerangkat extends CI_Controller{
         }
 
     }
-
-
    
 }
 

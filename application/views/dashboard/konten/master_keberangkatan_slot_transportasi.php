@@ -25,7 +25,6 @@
                     <th>Jumlah Peserta </th>
                     <th>Sisa Slot </th>
                     <th>Tanggal Berangkat</th>
-                    <th>Status </th>
                 </tr>
             </thead>
             <tbody>
@@ -39,7 +38,6 @@
                         <td><?php echo $key->jumlah_peserta; ?></td>
                         <td><?php echo $key->sisa_slot; ?></td>
                         <td><?php echo $key->tanggal_berangkat; ?></td>
-                        <td><?php echo ($key->status == 1) ? "<button class='btn btn-sm btn-success'  value='ON'> ON </button>" : "<button class='btn btn-sm btn-warning' value='OFF'> OFF </button>"  ; ?></td>
                        
                     </tr>
                 <?php } ?>
