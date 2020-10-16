@@ -66,7 +66,7 @@
                     
                 <div class="col-md-4">
                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-                    <input type="text" class="form-control" id="kode_transportasi">
+                    <input type="text" class="form-control" id="kode_transportasi_txt">
                 </div>
             </div>
 
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <input type="text" class="form-control" id="name_transportasi" >
+                    <input type="text" class="form-control" id="name_transportasi_txt" >
                 </div>
             </div>
 
@@ -92,7 +92,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <select name="jenis" id="jenis_transportasi" class="form-control" id="jenis_transportasi">
+                    <select name="jenis" class="form-control" id="jenis_transportasi_txt">
                        <?php foreach($data['jenis_transportasi'] as $key) {?>
                                 <option value="<?php echo $key->id_jenis_transportasi; ?>"> <?php echo $key->name_jenis; ?> </option>
                        <?php } ?>
@@ -109,7 +109,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <input type="text" class="form-control" id="slot" >
+                    <input type="text" class="form-control" id="slot_txt" >
                 </div>
             </div>
 
@@ -123,7 +123,7 @@
                 </div>
 
                 <div class="col-md-4">
-                <select name="status" class="form-control" id="status">
+                <select name="status" class="form-control" id="status_txt">
                         <option value="1">ON</option>
                         <option value="0">OFF</option>
                 </select>
@@ -143,11 +143,11 @@
 <script>
 
 function add() {
-    let kode_transportasi    = $('#kode_transportasi_txt').val();
-    let name_transportasi   = $('#name_transportasi_txt').val();
-    let jenis_transportasi  = $('#jenis_transportasi_txt').val();
-    let slot                = $('#slot_txt').val();
-    let status              = $('#status_txt').val();
+    var kode_transportasi    = $('#kode_transportasi_txt').val();
+    var name_transportasi   = $('#name_transportasi_txt').val();
+    var jenis_transportasi  = $('#jenis_transportasi_txt').val();
+    var slot                = $('#slot_txt').val();
+    var status              = $('#status_txt').val();
 
     $.ajax({
         url : "<?php echo base_url().'dashboard/Transportasi/store'; ?>",

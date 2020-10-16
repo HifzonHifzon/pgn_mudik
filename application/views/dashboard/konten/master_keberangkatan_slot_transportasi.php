@@ -1,6 +1,7 @@
 <div class="card">
     <div class="card-header">
         <h4 class="card-title"><?php echo $data['title'] ?></h4>
+        <h6> <i style="color:red"> SISA SLOT akan berkurang jika sudah di APPROVAL oleh admin di Menu Transaksi Keberangkatan  </i> </h6>
         <div class="pull-right">
             <button class="btn btn-success pull-right" data-toggle="modal" data-target="#add_jadwal_berangkat" > Add </button>
         </div>

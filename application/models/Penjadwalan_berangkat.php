@@ -4,7 +4,7 @@
 class Penjadwalan_berangkat extends CI_Model {
     
     public function getBerangkat() {
-        $query = "SELECT 	
+        $query = "select 	
                     a.tanggal_berangkat,
                     IF(z.jumlah_peserta IS NULL, 0, z.jumlah_peserta) as 'jumlah_peserta',
                     b.slot as 'kapasitas_transportasi',
@@ -13,21 +13,21 @@ class Penjadwalan_berangkat extends CI_Model {
                     c.asal,
                     c.tujuan,
                     a.status 
-                FROM tbl_jadwal_berangkat AS a 
-                    INNER JOIN (
+                from tbl_jadwal_berangkat AS a 
+                    inner join (
                             SELECT  
                                 x.id_transportasi, 
                                 x.name_transportasi, 
                                 x.slot
-                            FROM tbl_master_transportasi as x inner join tbl_master_jenis_transportasi as y 
+                            from tbl_master_transportasi as x inner join tbl_master_jenis_transportasi as y 
                                         on x.jenis_transportasi = y.id_jenis_transportasi
                                     ) as b on a.id_transportasi = b.id_transportasi  
-                    INNER JOIN tbl_master_rute as c on a.id_rute = c.id_rute
-                    LEFT JOIN (SELECT 
+                    inner join tbl_master_rute as c on a.id_rute = c.id_rute
+                    left join (select 
                         id_jadwal_berangkat, 
                         sum(jumlah_peserta)  as jumlah_peserta 
-                   FROM db_pgn.tbl_transaksi_berangkat GROUP BY id_jadwal_berangkat) as z 
-                   ON a.id_berangkat = z.id_jadwal_berangkat";
+                   from tbl_transaksi_berangkat where verifikasi = 'yes' group by id_jadwal_berangkat) as z 
+                   on a.id_berangkat = z.id_jadwal_berangkat";
 
             $jadwal_berangkat = $this->db->query($query)->result();
             return $jadwal_berangkat;
@@ -98,14 +98,14 @@ class Penjadwalan_berangkat extends CI_Model {
                                     ) as b on a.id_transportasi = b.id_transportasi  
                     INNER JOIN tbl_master_rute as c on a.id_rute = c.id_rute
                     LEFT JOIN (SELECT 
-                        id_jadwal_berangkat, 
-                        sum(jumlah_peserta)  as jumlah_peserta 
-                   FROM db_pgn.tbl_transaksi_berangkat GROUP BY id_jadwal_berangkat) as z 
+                        u.id_jadwal_berangkat, 
+                        sum(u.jumlah_peserta)  as jumlah_peserta 
+                   FROM tbl_transaksi_berangkat as u inner join tbl_peserta as x on u.id_peserta = x.id_peserta GROUP BY u.id_jadwal_berangkat) as z 
                    ON a.id_berangkat = z.id_jadwal_berangkat
                    WHERE a.id_berangkat = $id_berangkat";
         $exec = $this->db->query($query)->result();
         
-        if((int)$jumlah_peserta > (int)$exec[0]->sisa_slot) {
+        if($jumlah_peserta > $exec[0]->sisa_slot) {
             $data = [
                 "status" => true,
                 "sisa_slot" => $exec[0]->sisa_slot
@@ -161,8 +161,22 @@ class Penjadwalan_berangkat extends CI_Model {
         $this->db->where(["id_transportasi"=> $id_transportasi]);
         $result = $this->db->get('tbl_jadwal_berangkat')->result();
         return count($result);
-
     }   
+
+    function checkExistEmail($email) {
+        $whereEmail = [
+            "email" => $email
+        ];
+
+        $this->db->where($whereEmail);
+        $data =  $this->db->get('tbl_peserta')->num_rows();
+
+        if ($data > 0 ){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     
 

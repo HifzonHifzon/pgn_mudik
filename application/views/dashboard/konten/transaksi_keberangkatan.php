@@ -1,6 +1,7 @@
 <div class="card">
     <div class="card-header">
         <h4 class="card-title"><?php echo $data['title'] ?></h4>
+        <h6 style="color:red;"> <i> Admin harus mengklik tombol 'belum diverifikasi' jika ingin meng-approval request pendaftaran </i> </h6>
         <a class="heading-elements-toggle"><i class="ft-more-horizontal font-medium-3"></i></a>
         <div class="heading-elements">
             <ul class="list-inline mb-0">
@@ -42,7 +43,7 @@
                         <td><?php echo $key->tanggal_berangkat; ?></td>
                         <td>
                                 <?php echo ($key->verifikasi == 'yes') ? 
-                                        "-" 
+                                        "Done Vefirikasi" 
                                         : "<button class='btn btn-sm btn-primary' value='$key->id_transaksi_berangkat' onclick='verifikasi(this.value)'> Belum di verifikasi </button>"  ; 
                                 ?>
                         </td>

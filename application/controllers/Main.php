@@ -97,9 +97,17 @@ class Main extends CI_Controller {
 
 		$check = $this->Penjadwalan_berangkat->getCheckSlotKeberangkatan($jumlah_peserta, $id_berangkat);
 
-	
+		// pengecekan email yang sudah digunakan
+		$check_email = $this->Penjadwalan_berangkat->checkExistEmail($email);
 		
-		if ($check['status'] == TRUE) {
+		if ($check_email == true) {
+			echo '<script type="text/javascript">
+			alert("Email sudah digunakan ");
+			window.location.href="./index";
+			</script>';
+		} 
+		
+		if ($check['status'] == true) {
 			echo '<script type="text/javascript">
 			alert("Jumlah kapasitas anda tidak terpenuhi");
 			window.location.href="./index";
