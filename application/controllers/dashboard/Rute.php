@@ -1,11 +1,14 @@
 <?php 
-
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Rute extends CI_Controller{
 
     function __construct(){
         parent::__construct();
 
         $this->load->model('Rute_model');
+        if ($this->session->userdata('email') == '') {
+            redirect(base_url().'login');
+        }
     }
     public function index(){
         $result = $this->Rute_model->getAll();

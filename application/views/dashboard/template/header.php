@@ -22,7 +22,7 @@
               <i></i></span><span class="user-name">Logout</span></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     
-                  <div class="dropdown-divider"></div><a href="#" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
+                  <div class="dropdown-divider"></div><a href="<?php echo base_url().'login/logout' ?>" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
                 </div>
               </li>
             </ul>

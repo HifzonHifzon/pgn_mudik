@@ -2,7 +2,7 @@
     <div class="card-header">
         <h4 class="card-title"><?php echo $data['title'] ?></h4>
         <div class="pull-right">
-            <button class="btn btn-success pull-right" data-toggle="modal" data-target="#add_transportasi" > Add </button>
+            <button class="btn btn-success pull-right" data-toggle="modal" data-target="#add_jadwal_keberangkatan" > Add </button>
         </div>
         <a class="heading-elements-toggle"><i class="ft-more-horizontal font-medium-3"></i></a>
         <div class="heading-elements">
@@ -23,7 +23,6 @@
                     <th>Name Transportasi</th>
                     <th>Jenis Transportasi</th>
                     <th>Slot </th>
-                    <th>Status Aktif </th>
                 </tr>
             </thead>
             <tbody>
@@ -34,7 +33,6 @@
                         <td><?php echo $key->name_transportasi; ?></td>
                         <td><?php echo $key->name_jenis; ?></td>
                         <td><?php echo $key->slot; ?></td>
-                        <td><?php echo ($key->status_aktif == 1) ? "<button class='btn btn-sm btn-success'  value='ON'> ON </button>" : "<button class='btn btn-sm btn-warning' value='OFF'> OFF </button>"  ; ?></td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -44,7 +42,7 @@
 </div>
 
 
-<div class="modal" id="add_transportasi">
+<div class="modal" id="add_jadwal_keberangkatan">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 

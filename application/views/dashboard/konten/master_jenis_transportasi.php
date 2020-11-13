@@ -19,22 +19,18 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Kode Transportasi</th>
-                    <th>Name Transportasi</th>
                     <th>Jenis Transportasi</th>
-                    <th>Slot </th>
-                    <th>Status Aktif </th>
+                    <th>Action </th>
                 </tr>
             </thead>
             <tbody>
                 <?php $no=1; foreach($data['result'] as $key)  {?>
                     <tr>
                         <td><?php echo $no++; ?></td>
-                        <td><?php echo $key->kode_transportas; ?></td>
-                        <td><?php echo $key->name_transportasi; ?></td>
                         <td><?php echo $key->name_jenis; ?></td>
-                        <td><?php echo $key->slot; ?></td>
-                        <td><?php echo ($key->status_aktif == 1) ? "<button class='btn btn-sm btn-success'  value='ON'> ON </button>" : "<button class='btn btn-sm btn-warning' value='OFF'> OFF </button>"  ; ?></td>
+                        <td>
+                        <button class="btn btn-danger btn-sm" value="<?php echo $key->id_jenis_transportasi; ?>" onclick="return delete_(this.value)"> Delete </button>
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -49,37 +45,11 @@
     <div class="modal-content">
 
       <div class="modal-header">
-        <h4 class="modal-title">Add Trasnportasi</h4>
+        <h4 class="modal-title">Add Jenis</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
       <div class="modal-body">
-            <div class="row">
-                <div class="col-md-4">
-                    Kode Transportasi
-                </div>
-                <div class="col-md-1">
-                    :
-                </div>
-
-                <div class="col-md-4">
-                    <input type="text" class="form-control" id="kode_transportasi">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    Nama Transportasi
-                </div>
-                <div class="col-md-1">
-                    :
-                </div>
-
-                <div class="col-md-4">
-                    <input type="text" class="form-control" id="name_transportasi" >
-                </div>
-            </div>
-
             <div class="row">
                 <div class="col-md-4">
                     Jenis Transportasi
@@ -89,27 +59,9 @@
                 </div>
 
                 <div class="col-md-4">
-                    <select name="jenis" id="jenis_transportasi" class="form-control" id="jenis_transportasi">
-                       <?php foreach($data['jenis_transportasi'] as $key) {?>
-                                <option value="<?php echo $key->id_jenis_transportasi; ?>"> <?php echo $key->name_jenis; ?> </option>
-                       <?php } ?>
-                    </select>
+                    <input type="text" class="form-control" id="name_jenis_transportasi">
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    SLOT Penumpang
-                </div>
-                <div class="col-md-1">
-                    :
-                </div>
-
-                <div class="col-md-4">
-                    <input type="text" class="form-control" id="slot" >
-                </div>
-            </div>
-
             
             <div class="row">
                 <div class="col-md-4">
@@ -140,20 +92,14 @@
 
 function add() {
    
-    let kode_transportasi    = $('#kode_transportasi').val();
-    let name_transportasi   = $('#name_transportasi').val();
-    let jenis_transportasi  = $('#jenis_transportasi').val();
-    let slot                = $('#slot').val();
-    let status              = $('#status').val();
+    let status    = $('#status').val();
+    let name_jenis_transportasi   = $('#name_jenis_transportasi').val();
 
     $.ajax({
-        url : "<?php echo base_url().'dashboard/Transportasi/store'; ?>",
+        url : "<?php echo base_url().'dashboard/JenisTransportasi/store'; ?>",
         data : {
-            name_transportasi : name_transportasi,
-            slot : slot,
-            jenis_transportasi : jenis_transportasi,
             status : status,
-            kode_transportasi : kode_transportasi
+            name_jenis : name_jenis_transportasi,
         },
         type : 'POST',
         dataType:"JSON",
@@ -169,4 +115,39 @@ function add() {
         }
     })
 }
+
+
+function delete_(id) {
+    swal({
+            title: "",
+            text: "Are you delete this data ?!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+            if (willDelete) {
+               $.ajax({
+                url : "<?php echo base_url().'dashboard/JenisTransportasi/delete'; ?>",
+                   data : {
+                       id : id
+                   },
+                   type : 'POST',
+                   dataType : 'JSON',
+                   success:function(res){
+    
+                    if (res.status == 'success')  {
+                        swal({title: "Good job", text: res.message, type: 
+                            "success"}).then(function(){ 
+                            location.reload();
+                            }
+                        );
+                    } 
+                   }
+               })
+            } else {
+                swal("Data cancelled delete");
+            }
+            });
+    }
 </script>

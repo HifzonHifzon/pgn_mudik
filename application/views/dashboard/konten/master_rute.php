@@ -21,7 +21,6 @@
                     <th>No</th>
                     <th>Asal</th>
                     <th>Tujuan</th>
-                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
